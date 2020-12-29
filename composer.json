@@ -1,0 +1,18 @@
+{
+    "name": "igalileo/git-hooks",
+    "description": "Scripts for Git hooks",
+    "keywords": ["git", "hooks", "lint"],
+    "homepage": "https://www.igalileo.cz",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jiri Prochazka",
+            "email": "jiri.prochazka@igalileo.cz",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
+
