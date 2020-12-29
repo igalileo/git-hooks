@@ -1,0 +1,26 @@
+#!/bin/bash
+declare -a LINT_ERRORS
+
+if git rev-parse --verify HEAD >/dev/null 2>&1; then
+    AGAINST=HEAD
+else
+    # Initial commit: diff against an empty tree object
+    AGAINST=$(git rev-list --max-parents=0 HEAD)
+fi
+
+GIT_STAGED_FILES=$(git diff --cached --name-only --diff-filter=AM $AGAINST | grep 'php')
+
+for FILE in $GIT_STAGED_FILES; do
+	PHP_LINT_OUTPUT=$(php -l -d display_errors=On $FILE 2>&1 | grep 'Parse error:')
+	# If it did contain errors, we have output.
+    if [ -n "$PHP_LINT_OUTPUT" ]; then
+        LINT_ERRORS=("${LINT_ERRORS[@]}" "$PHP_LINT_OUTPUT")
+    fi
+done
+
+if [ -n "$LINT_ERRORS" ]; then
+	printf '\033[0;31m%s\n\n\033[0mError linting PHP files. Please, correct the errors above and commit files again. Commit aborted.\n' "${LINT_ERRORS[@]}"
+	exit 1
+else
+	exit 0
+fi
