@@ -12,7 +12,10 @@
             "role": "Developer"
         }
     ],
-    "minimum-stability": "stable",
-    "require": {}
+    "scripts": {
+        "post-install-cmd": [
+               "[ ! -e .git/hooks/pre-commit ] && cp hooks/pre-commit .git/hooks/pre-commit"
+        ]
+    }
 }
 
